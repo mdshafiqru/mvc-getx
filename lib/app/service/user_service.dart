@@ -1,41 +1,28 @@
 import 'dart:convert';
 
 import 'package:app1/app/data/constant/api_string.dart';
-import 'package:app1/app/data/constant/app_string.dart';
-import 'package:app1/app/models/api_response.dart';
 import 'package:app1/app/models/user_model.dart';
 import 'package:http/http.dart' as http;
 
-Future<ApiResponse> getUserDetails() async {
-  ApiResponse apiResponse = ApiResponse();
-
+Future<List<User>> getUserList() async {
+  List<User> usersList = [];
   try {
     var url = Uri.parse(ApiString.USER_API);
-
     var header = {
-      "app-id": "611e7827a584d453446ae574",
+      "Accept": 'application/json',
+      "app-id": '616916589d66eecb13c7a848',
     };
+    var response = await http.get(url, headers: header);
 
-    final response = await http.get(url, headers: header);
-    switch (response.statusCode) {
-      case 200:
-        apiResponse.data = jsonDecode(response.body)['data']
-            .map((p) => User.fromJson(p))
-            .toList();
-        apiResponse.data as List<dynamic>;
-        break;
-
-      case 403:
-        apiResponse.error = AppString.FORBIDDEN;
-        break;
-
-      default:
-        apiResponse.error = AppString.SOMETING_WENT_WORNG;
-        break;
+    if (response.statusCode == 200) {
+      var userJson = json.decode(response.body)['data'];
+      for (var item in userJson) {
+        usersList.add(User.fromJson(item));
+      }
     }
   } catch (e) {
-    // apiResponse.error = AppString.SERVER_ERROR;
+    //
   }
 
-  return apiResponse;
+  return usersList;
 }

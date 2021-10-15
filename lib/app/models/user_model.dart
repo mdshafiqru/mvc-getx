@@ -1,15 +1,29 @@
+// ignore_for_file: unnecessary_this
+
 class User {
-  String? image;
+  String? id;
+  String? title;
   String? firstName;
   String? lastName;
-  String? id;
+  String? picture;
 
-  User({this.id, this.image, this.firstName, this.lastName});
+  User({this.id, this.title, this.firstName, this.lastName, this.picture});
 
   User.fromJson(Map<String, dynamic> json) {
-    image = json['picture'];
+    id = json['id'];
+    title = json['title'];
     firstName = json['firstName'];
     lastName = json['lastName'];
-    id = json['id'];
+    picture = json['picture'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = {};
+    data['id'] = this.id;
+    data['title'] = this.title;
+    data['firstName'] = this.firstName;
+    data['lastName'] = this.lastName;
+    data['picture'] = this.picture;
+    return data;
   }
 }

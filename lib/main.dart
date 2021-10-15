@@ -20,7 +20,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ContactList(),
+      // home: Home(),
+      home: ContactPage(),
     );
   }
 }
